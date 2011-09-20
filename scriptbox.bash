@@ -21,7 +21,7 @@
 #!/bin/bash
 
 SCRIPTBOX_TITLE="ScriptBox"
-SCRIPTBOX_VERSION=0.5.3
+SCRIPTBOX_VERSION=0.5.4
 
 echo "Enabled $SCRIPTBOX_TITLE $SCRIPTBOX_VERSION shell extension."
 
@@ -33,6 +33,14 @@ GREEN='\e[0;32m'
 YELLOW='\e[0;33m'
 BLUE='\e[0;34m'
 NORM='\033[0m'
+
+menu_running()
+{
+	if [ "${QUEUE:0:1}" != "x" ]
+	then
+		echo "continue"
+	fi
+}
 
 menu_delimiter()
 {
