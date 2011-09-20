@@ -1,0 +1,33 @@
+README for scriptbox
+
+
+-------------------------------------------------------------------------------
+DESCRIPTION
+-------------------------------------------------------------------------------
+
+scriptbox is a simple menu creation tool for distributed bash scripting.
+
+
+-------------------------------------------------------------------------------
+INSTALL
+-------------------------------------------------------------------------------
+
+1. create folder to store the scriptbox project files
+
+   mkdir ~/scriptbox
+
+2. clone the git repository of scriptbox to that directory
+
+   git clone git://github.com/TimoL/ScriptBox.git ~/scriptbox
+
+3. open ~/.bashrc and append the following line
+
+   . ~/Projekte/scriptbox/scriptbox.bash
+
+   Note: the file may have a different name depending on your platform
+         e.g. on OSX this file is called ~/.bash_profile
+
+4. restart bash and you should see a small message like
+   "Enabled ScriptBox 0.5.4 shell extension."
+
+Now the scriptbox bash extension is enabled on your system.
