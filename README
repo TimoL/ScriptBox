@@ -20,12 +20,11 @@ INSTALL
 
    git clone git://github.com/TimoL/ScriptBox.git ~/scriptbox
 
-3. open ~/.bashrc and append the following line
+3. open ~/.bashrc and append the following line:
+   (Note: this file may have a different name depending on your platform,
+    e.g. on OSX this file is called ~/.bash_profile)
 
-   . ~/Projekte/scriptbox/scriptbox.bash
-
-   Note: the file may have a different name depending on your platform
-         e.g. on OSX this file is called ~/.bash_profile
+   . ~/scriptbox/scriptbox.bash
 
 4. restart bash and you should see a small message like
    "Enabled ScriptBox 0.5.4 shell extension."
