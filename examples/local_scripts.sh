@@ -39,7 +39,7 @@ do
 	               window
 			
 	# execute command asynchronously in window
-	# window will close after command is finished
+	# window will stay open after command is finished
 	
 	menu_entry "l" "input in external blocking window" local \
 	               "read -p 'input in external window: ' tmp" \
