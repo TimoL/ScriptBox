@@ -21,22 +21,22 @@
 #!/bin/bash
 
 SCRIPTBOX_TITLE="ScriptBox"
-SCRIPTBOX_VERSION=0.5.4
+SCRIPTBOX_VERSION=0.5.5
 
 echo "Enabled $SCRIPTBOX_TITLE $SCRIPTBOX_VERSION shell extension."
 
 # if there are command line arguments, use them as direct input
-QUEUE="$1"
+SB_QUEUE="$1"
 
-RED_BOLD='\E[37;31m''\033[1m'
-GREEN='\e[0;32m'
-YELLOW='\e[0;33m'
-BLUE='\e[0;34m'
-NORM='\033[0m'
+SB_RED_BOLD='\E[37;31m''\033[1m'
+SB_GREEN='\e[0;32m'
+SB_YELLOW='\e[0;33m'
+SB_BLUE='\e[0;34m'
+SB_NORM='\033[0m'
 
 menu_running()
 {
-	if [ "${QUEUE:0:1}" != "x" ]
+	if [ "${SB_QUEUE:0:1}" != "x" ]
 	then
 		echo "continue"
 	fi
@@ -44,22 +44,22 @@ menu_running()
 
 menu_delimiter()
 {
-	printf "${BLUE}----------------------------------------------------------${NORM}\n"
+	printf "${SB_BLUE}----------------------------------------------------------${SB_NORM}\n"
 }
 
 menu_delimiter_inline_start()
 {
-	printf "${YELLOW}----------------------------------------------------------\n"
+	printf "${SB_YELLOW}----------------------------------------------------------\n"
 }
 
 menu_delimiter_inline_stop()
 {
-	printf "\0----------------------------------------------------------${NORM}\n"
+	printf "\0----------------------------------------------------------${SB_NORM}\n"
 }
 
 menu_delimiter_bold()
 {
-	printf "${BLUE}==========================================================${NORM}\n"
+	printf "${SB_BLUE}==========================================================${SB_NORM}\n"
 }
 
 menu_headline()
@@ -72,72 +72,72 @@ menu_headline()
 
 execute_local()
 {
-	COMMAND=$1
-	MODE=$2
-	TEXT=$3
+	SB_COMMAND=$1
+	SB_MODE=$2
+	SB_TEXT=$3
 
-	case $MODE in
+	case $SB_MODE in
 		"silent" )
-			sh -c "$COMMAND" > /dev/null;;
+			sh -c "$SB_COMMAND" > /dev/null;;
 		"inline" )
 			menu_delimiter_inline_start
-			sh -c "$COMMAND"
+			sh -c "$SB_COMMAND"
 			menu_delimiter_inline_stop;;
 		"window" )
-			(xterm -T "[$TARGET] $TEXT" -e "$COMMAND") & ;;
+			(xterm -T "[$SB_TARGET] $SB_TEXT" -e "$SB_COMMAND") & ;;
 	esac
 }
 
 execute_remote()
 {
-	COMMAND=$1
-	TARGET=$2
-	MODE=$3
-	TEXT=$4
+	SB_COMMAND=$1
+	SB_TARGET=$2
+	SB_MODE=$3
+	SB_TEXT=$4
 
-	eval IP="\$${TARGET}_IP"
-	eval USER="\$${TARGET}_USER"
+	eval SB_IP="\$${SB_TARGET}_IP"
+	eval SB_USER="\$${SB_TARGET}_USER"
 	
-	case $MODE in
+	case $SB_MODE in
 		"silent" )
-			(ssh $USER@$IP "$COMMAND") &> /dev/null;;
+			(ssh $SB_USER@$SB_IPIP "$SB_COMMAND") &> /dev/null;;
 		"inline" )
 			menu_delimiter_inline_start
-			ssh $USER@$IP "$COMMAND"
+			ssh $SB_USER@$SB_IPIP "$SB_COMMAND"
 			menu_delimiter_inline_stop;;
 		"window" )
-			(xterm -T "[$TARGET] $TEXT" -e ssh $USER@$IP "$COMMAND") & ;;
+			(xterm -T "[$SB_TARGET] $SB_TEXT" -e ssh $SB_USER@$SB_IPIP "$SB_COMMAND") & ;;
 	esac
 	
 }
 
 menu_entry()
 {
-	KEY=$1
-	TEXT=$2
-	TARGET=$3
-	COMMAND=$4
-	MODE=$5
+	SB_KEY=$1
+	SB_TEXT=$2
+	SB_TARGET=$3
+	SB_COMMAND=$4
+	SB_MODE=$5
 
-	if [ "$MODE" == "" ]; then
-		MODE=inline
+	if [ "$SB_MODE" == "" ]; then
+		SB_MODE=inline
 	fi
 	
-	case $TARGET in
-		"script" ) printf " ${RED_BOLD}$KEY${NORM} $TEXT ${GREEN}[script:$COMMAND]${NORM}\n";;
-		*        ) printf " ${RED_BOLD}$KEY${NORM} $TEXT ${GREEN}[$TARGET][${MODE:0:1}]${NORM}\n";;
+	case $SB_TARGET in
+		"script" ) printf " ${SB_RED_BOLD}$SB_KEY${SB_NORM} $SB_TEXT ${SB_GREEN}[script:$SB_COMMAND]${SB_NORM}\n";;
+		*        ) printf " ${SB_RED_BOLD}$SB_KEY${SB_NORM} $SB_TEXT ${SB_GREEN}[$SB_TARGET][${SB_MODE:0:1}]${SB_NORM}\n";;
 	esac
 
-	if [ "$MODE" == "blocking_window" ]; then
-		MODE=window
-		COMMAND="$COMMAND;echo;echo '[Finished - Press ENTER to close window]';read"
+	if [ "$SB_MODE" == "blocking_window" ]; then
+		SB_MODE=window
+		SB_COMMAND="$SB_COMMAND;echo;echo '[Finished - Press ENTER to close window]';read"
 	fi
 
-	if [ "${QUEUE:0:1}" == "$KEY" ]; then
-		case $TARGET in
-			"script" ) QUEUE=" $COMMAND${QUEUE:1}";;
-			"local"  ) execute_local "$COMMAND" "$MODE" "$TEXT";;
-			*        ) execute_remote "$COMMAND" "$TARGET" "$MODE" "$TEXT";;
+	if [ "${SB_QUEUE:0:1}" == "$SB_KEY" ]; then
+		case $SB_TARGET in
+			"script" ) SB_QUEUE=" $SB_COMMAND${SB_QUEUE:1}";;
+			"local"  ) execute_local "$SB_COMMAND" "$SB_MODE" "$SB_TEXT";;
+			*        ) execute_remote "$SB_COMMAND" "$SB_TARGET" "$SB_MODE" "$SB_TEXT";;
 		esac
 	fi
 }
@@ -151,10 +151,10 @@ menu_wait_for_user_input()
 
 	menu_delimiter_bold
 
-	QUEUE=${QUEUE:1}
+	SB_QUEUE=${SB_QUEUE:1}
 
-	if [ "$QUEUE" == "" ]; then
-		read -p " Command(list): " QUEUE
+	if [ "$SB_QUEUE" == "" ]; then
+		read -p " Command(list): " SB_QUEUE
 	fi
 	
 	echo

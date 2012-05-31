@@ -27,6 +27,6 @@ INSTALL
    . ~/scriptbox/scriptbox.bash
 
 4. restart bash and you should see a small message like
-   "Enabled ScriptBox 0.5.4 shell extension."
+   "Enabled ScriptBox 0.5.5 shell extension."
 
 Now the scriptbox bash extension is enabled on your system.
