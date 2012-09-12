@@ -100,13 +100,13 @@ execute_remote()
 	
 	case $SB_MODE in
 		"silent" )
-			(ssh $SB_USER@$SB_IPIP "$SB_COMMAND") &> /dev/null;;
+			(ssh $SB_USER@$SB_IP "$SB_COMMAND") &> /dev/null;;
 		"inline" )
 			menu_delimiter_inline_start
-			ssh $SB_USER@$SB_IPIP "$SB_COMMAND"
+			ssh $SB_USER@$SB_IP "$SB_COMMAND"
 			menu_delimiter_inline_stop;;
 		"window" )
-			(xterm -T "[$SB_TARGET] $SB_TEXT" -e ssh $SB_USER@$SB_IPIP "$SB_COMMAND") & ;;
+			(xterm -T "[$SB_TARGET] $SB_TEXT" -e ssh $SB_USER@$SB_IP "$SB_COMMAND") & ;;
 	esac
 	
 }
